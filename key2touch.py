@@ -6,6 +6,21 @@ from queue import Queue
 mapping = {}
 curr_xy = Queue()
 
+def read_mappings_as_list():
+    mappings_str = ""
+    with open('mappings.k2t', mode = 'r', encoding='utf-8') as file:
+        mappings_str = file.read()
+
+    mappings_list = mappings_str.split("mapping:")
+    mappings_list = [mapping.replace("\n   "," ") for mapping in mappings_list]
+    mappings_list = [mapping.replace("\n","") for mapping in mappings_list]
+    mappings_list = [mapping.replace(" name:","name:") for mapping in mappings_list]
+    mappings_list.remove('')
+    mappings_list = [mapping.split(" keys:     ") for mapping in mappings_list]
+    mappings_list = [[mapping[0].replace("name: ",""), mapping[1]] for mapping in mappings_list]
+
+    return mappings_list
+
 def calibration_listener(x, y, button, pressed):
     m_controller = Controller()
     if button == mouse.Button.left:
@@ -88,6 +103,23 @@ def calibrate_click():
     listener.start()
     listener.join()
 
+def read_mapping(name:str):
+    mappings_list = read_mappings_as_list()
+    i = 0
+    wanted = -1
+    for mapping in mappings_list:
+        if mapping[0] == name:
+            wanted = i
+        i += 1
+    if (wanted == -1):
+        print(f"No mappings with the name {name} name found")
+        return {}
+
+    mapped_keys = mappings_list[wanted][1].split("    ")
+    mapped_keys = [mapping.split(":") for mapping in mapped_keys]
+    mapped_keys= [[mapping[0], mapping[1].replace("(", "")] for mapping in mapped_keys]
+    mapped_keys= [[mapping[0], mapping[1].replace(")", "")] for mapping in mapped_keys]
+    print(mapped_keys)
 
 
 def main():
@@ -123,6 +155,7 @@ def main():
         calibrate_click()
     else:
         print("No existing mappings exist (functionality not yet added) Bye")
+        read_mapping("m1")
     
     print(f"Mapping : {mapping}")
 

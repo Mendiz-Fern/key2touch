@@ -1,13 +1,22 @@
+V0.1.0
++ Fixed the new Bug
++ Mapping now works perfectly, both making a new mapping and opening an old one
+
+V0.0.4
++ Added functionality to load a mapping
++ Added functionality to save multiple mappings with the same name (it adds a number at the end to differentiate)
+- Bug discovered: Loading and reading from the mapping dictionary is kind of iffy occasionally, so I'm going to rethink the way I do that for V0.1.0
+
 V0.0.3
-* Fixed the coordinate issue
++ Fixed the coordinate issue
 
 V0.0.2
-* Added Basic Changelog functionality
-* Added mapping saving functionality (cannot load yet)
++ Added Basic Changelog functionality
++ Added mapping saving functionality (cannot load yet)
     - Also the mapping save functionality doesn't take into account that one might have repeat names, but this will only come into play later on 
-* Made a first attempt at mapping keys to clicks, but there are calibration issues
++ Made a first attempt at mapping keys to clicks, but there are calibration issues
     - Namely, if I tell it to move to (x, y), it moves to (1.25x, 1.25y). I'm not sure why but it can be mitigated
     - Unsure if this would affect other machines differently :/
 
 V0.0.1
-* No changelog entries yet
+- No changelog entries yet
