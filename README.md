@@ -1,10 +1,8 @@
-I just wanted to have a small program that maps key presses to touchscreen directives so I can play a specific mobile game on my computer through screen mirroring. 
-At the moment, it doesn't have a GUI becuase... well... it's python. I'll try to come up with a GUI at some point, since this form of doing stuff is very archaic, not gonna lie.
 
 # V0.1.0
 ## WELCOME TO KEY2CLICK
 #### A prototype for key2touch
-Key2Click is a python program that will map key presses to mouse clicks, with its ultimate goal being to eventually map multiple simultanous key presses to touch input in a touch screen (hopefully it works with non-touchscreens as well), but for now it's one keypress for one mouse press at a time.
+Key2Click is a python program that will map key presses to mouse clicks, with its ultimate goal being to eventually map multiple simultanous key presses to touch input in a touch screen (hopefully it works with non-touchscreens as well), but for now it's one keypress for one mouse press at a time. It also still has no GUI, as it's still a prototype.
 
 ## USAGE
 To use key2touch (or key2click for now), download the zip for the repository and extract it all in the same folder, then run key2touch (remember to have python installed in your machine first).
@@ -35,4 +33,7 @@ This issues will be fixed later
 
 # V0.0
 Created the Python file. That's about it
+
+I just wanted to have a small program that maps key presses to touchscreen directives so I can play a specific mobile game on my computer through screen mirroring. 
+At the moment, it doesn't have a GUI becuase... well... it's python. I'll try to come up with a GUI at some point, since this form of doing stuff is very archaic, not gonna lie.
 
