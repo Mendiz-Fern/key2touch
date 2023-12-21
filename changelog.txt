@@ -1,0 +1,13 @@
+V0.0.3
+* Fixed the coordinate issue
+
+V0.0.2
+* Added Basic Changelog functionality
+* Added mapping saving functionality (cannot load yet)
+    - Also the mapping save functionality doesn't take into account that one might have repeat names, but this will only come into play later on 
+* Made a first attempt at mapping keys to clicks, but there are calibration issues
+    - Namely, if I tell it to move to (x, y), it moves to (1.25x, 1.25y). I'm not sure why but it can be mitigated
+    - Unsure if this would affect other machines differently :/
+
+V0.0.1
+* No changelog entries yet
