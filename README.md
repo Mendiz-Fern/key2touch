@@ -3,7 +3,7 @@ At the moment, it doesn't have a GUI becuase... well... it's python. I'll try to
 
 # V0.1.0
 ## WELCOME TO KEY2CLICK
-### A prototype for key2touch
+#### A prototype for key2touch
 Key2Click is a python program that will map key presses to mouse clicks, with its ultimate goal being to eventually map multiple simultanous key presses to touch input in a touch screen (hopefully it works with non-touchscreens as well), but for now it's one keypress for one mouse press at a time.
 
 ## USAGE
