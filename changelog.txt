@@ -1,3 +1,8 @@
+V0.1.1
+- No functional changes
++ Began attempting to compile C++ code with my python code to utilize windows' injectTouchInput methods in C++
+    - This is not working, but I want to commit V0.1.1 to GIT to have it around in case I need to go to linux
+
 V0.1.0
 + Fixed the new Bug
 + Mapping now works perfectly, both making a new mapping and opening an old one
