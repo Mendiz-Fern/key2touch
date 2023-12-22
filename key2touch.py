@@ -75,7 +75,6 @@ def dictionary_val_filler_listener(x, y, button, pressed):
     else:
         print('{} at {}'.format('Pressed Right Click' if pressed else 'Released Right Click', (x, y)))
 
-
 '''
 ========= FUNCTION: disctionary_key_filler_listener =========
 args: 
@@ -308,8 +307,6 @@ def main():
     listener_key.start()  # start to listen on a separate thread
     listener_key.join()  # remove if main thread is polling self.keys
     listener_key.stop()
-
-
 
 
 if __name__ == "__main__":
