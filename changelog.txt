@@ -1,3 +1,11 @@
+V0.1.2
+* Realized the hard-coded calibration did not quite work 
++ added a script that logs the screen corners into a text file
+    * if a person has a multi-screen setup, then this includes all screens in the setup
+    + if a person's setup is not square, the software will square the screen automatically
+- the corner logging is not yet used to actually calculate proper mouse clicks on a screen
+* use command 'calibrate' on main menu to activate this feature 
+
 V0.1.1
 - No functional changes
 + Began attempting to compile C++ code with my python code to utilize windows' injectTouchInput methods in C++

@@ -26,3 +26,21 @@ mapping:
       k:(1364, 805)
       l:(1476, 695)
 
+mapping:
+   name: whatdaqueuefor
+   keys: 
+      a:(915, -488)
+      b:(915, -488)
+      c:(914, -485)
+      d:(913, -482)
+      e:(913, -482)
+      f:(913, -482)
+      g:(913, -482)
+
+mapping:
+   name: daqueueglobal
+   keys: 
+      a:(787, -510)
+      b:(786, -509)
+      c:(785, -511)
+

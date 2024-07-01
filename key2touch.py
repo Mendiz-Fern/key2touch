@@ -4,8 +4,9 @@ from pynput.mouse import Button, Controller
 from queue import Queue
 
 # mapping = {}
-mapping_q = Queue()
-curr_xy = Queue()
+mapping_q = Queue() # queue for mapping values (this works as a global variable that stores the current value of the mapping)
+curr_xy = Queue() # queue for current x and y values on screen
+cali_q = Queue() # queue for screen calibration (this will also work as a global variable, but for the calibration script)
 
 '''
 ========= FUNCTION: read_mappings_as_array =========
@@ -47,10 +48,9 @@ def calibration_listener(x, y, button, pressed):
     m_controller = Controller()
     if button == mouse.Button.left:
         if(pressed):
-            print(f"clicked on ({x},{y})")
-            m_controller.position = (x,y)
-            print(f"controller position then claims to be at {m_controller.position}")
-            # return False # Returning False if you need to stop the program when Left clicked.
+            print(f"corner set to ({x},{y})") 
+            curr_xy.put((x,y)) # keeps the current x,y value safe for later use
+            return False # Returning False if you need to stop the program when Left clicked.
     else:
         print('{} at {}'.format('Pressed Right Click' if pressed else 'Released Right Click', (x, y)))
 
@@ -213,13 +213,21 @@ def save_mapping(name:str, dict):
 args: none
 returns: none
 
+
+
 This function calls the calibration_listener. More info on that in the calibration_listener function
 '''
 def calibrate_click():
-    listener = mouse.Listener(on_click=calibration_listener)
-    listener.start()
-    listener.join()
-
+    corner_names = ["Top Left", "Top Right", "Bottom Left", "Bottom Right"]
+    corners = []
+    for name in corner_names:
+        print(f"Click on your setup's {name} corner")
+        listener = mouse.Listener(on_click=calibration_listener)
+        listener.start()
+        listener.join()
+        corners.append(curr_xy.get())
+        listener.stop()
+    return corners
 '''
 ========= FUNCTION: read_mapping =========
 args:
@@ -253,6 +261,58 @@ def read_mapping(name:str):
         new_mapping[m[0]] = m[1] # turn the list into a dictionary
     
     return new_mapping # return this dictionary
+
+'''
+========= FUNCTION: square_corners =========
+args:
+    - corners: a list containing the cordinates for the corners of the screen in the following
+    order: top left, top right, bottom left, bottom right
+returns:
+    - none
+
+This function take a list of corners and makes sure they form a square. if they don't, it
+turns the corners into a square and whatnot. the basic concept is that we can push edges to 
+match the furthest available edge.
+'''
+def square_corners(corners):
+    print("squaring corners")
+    #                      les
+    #                       ^
+    #  Less <- x -> More    y
+    #                       v
+    #                      mor
+    if(corners[0][1] != corners[1][1]): # check top y values match
+        print("top y not matching")
+        corners[0] = (corners[0][0], min(corners[0][1], corners[1][1]))
+        corners[1] = (corners[1][0], min(corners[0][1], corners[1][1]))
+    if(corners[0][0] != corners[2][0]): # check the left x values match
+        print("left x not matching")
+        corners[0] = (min(corners[0][0], corners[2][0]), corners[0][1])
+        corners[2] = (min(corners[0][0], corners[2][0]), corners[2][1])
+    if(corners[1][0] != corners[3][0]): # check the right x values match
+        print("right x values not matching")
+        corners[1] = (max(corners[1][0], corners[3][0]), corners[1][1])
+        corners[3] = (max(corners[1][0], corners[3][0]), corners[3][1])
+    if(corners[2][1] != corners[3][1]): # check the bottom y values match
+        print("bottom y values not matching")
+        corners[2] = (corners[2][0], max(corners[2][1], corners[3][1]))
+        corners[3] = (corners[3][0], max(corners[2][1], corners[3][1]))
+
+'''
+========= FUNCTION: save_corners =========
+args:
+    - corners: a list containing the cordinates for the corners of the screen in the following
+    order: top left, top right, bottom left, bottom right
+returns:
+    - none
+
+This function takes a list of corners and saves them to a .txt file
+'''
+def save_corners(corners):
+    with open('calibration.txt', mode = 'w', encoding='utf-8') as file:
+        file.write(f"{corners}")
+    
+
 
 def main():
     changelog_str = ""
@@ -290,7 +350,13 @@ def main():
             print("No mapping created. Exiting")
             return  
     elif(response == "calibrate"):
-        calibrate_click()
+        print("Calibrating software for screen size")
+        corners = calibrate_click()
+        print(f"your corners are at {corners}")
+        square_corners(corners)
+        print(f"After squaring, your corners are at {corners}")
+        save_corners(corners)
+        return False
     else:
         # print("No existing mappings exist (functionality not yet added) Bye")
         print("What's the name of the mapping you're looking for?")
