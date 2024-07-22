@@ -453,7 +453,7 @@ if __name__ == "__main__":
 # Notes: screens 2 and 3 have negative values in their coordinates, screen 1 does not. Could this be the issue? 
 
 # for the 3-screen setup::: 
-    # on top screen [screen 1] - 
-    # on bottom screen [screen 2] - 
-    # on right screen [screen 3] - 
+    # on top screen [screen 1] - (118, 103) -> (148, 129) -> (185, 161) -> (231, 201) -> (289, 251) -> (361, 314) -> (451, 393) -> (564, 491) -> (705, 614) -> (881, 768) -> (1101, 863)
+    # on bottom screen [screen 2] - Everything works normally 
+    # on right screen [screen 3] - Everything works normally 
 # Notes: 
