@@ -7,6 +7,8 @@ from queue import Queue
 mapping_q = Queue() # queue for mapping values (this works as a global variable that stores the current value of the mapping)
 curr_xy = Queue() # queue for current x and y values on screen
 cali_q = Queue() # queue for screen calibration (this will also work as a global variable, but for the calibration script)
+scale_x = Queue() # queue for x value scaling
+scale_y = Queue() # queue for y value scaling
 
 '''
 ========= FUNCTION: read_mappings_as_array =========
@@ -124,7 +126,8 @@ def key_event_handler(key):
         k = key.char  # single-char keys
         if (k in mapping): # if K is in mapping (as a key)
             print(f"moving mouse to {mapping[k]}")
-            m_controller.position = tuple(coord/1.25 for coord in mapping[k]) # we can move the controller position (to check why we divide, look at the changelog)
+            m_controller.position = tuple(coord/1 for coord in mapping[k]) # we can move the controller position (to check why we divide, look at the changelog)
+            #                                   ^ see that there? that's a stand in for the actual scaling factor we're going to be using, but we need to test without it
             m_controller.press(Button.left) # we can press the button
     except:
         k = key.name  # other keys
@@ -311,7 +314,62 @@ This function takes a list of corners and saves them to a .txt file
 def save_corners(corners):
     with open('calibration.txt', mode = 'w', encoding='utf-8') as file:
         file.write(f"{corners}")
-    
+
+
+'''
+========= FUNCTION: load_scaling =========
+args:
+    - none
+returns:
+    - none
+
+This function loads the scaling and saves it into the scaling queues... allegedly
+'''
+def load_scaling():
+    corners = []
+    with open('calibration.txt', mode = 'r', encoding='utf-8') as file:
+        corners = file.read()
+    corners_as_list = list(eval(corners)) # we got here the corners
+    # not done yet. tryna figure out how scaling works... At the moment, it doesn't 
+
+
+'''
+========= FUNCTION: old_calibration =========
+args:
+    - none
+returns:
+    - none
+
+this is more like a calibration helper for debugging
+'''
+def old_calibration():
+        listener = mouse.Listener(on_click=old_cal_listener)
+        listener.start()
+        listener.join()
+
+
+'''
+========= FUNCTION: old_cal_listener =========
+args:
+    - none
+returns:
+    - none
+
+Listener for the old_calibration function
+'''
+def old_cal_listener(x, y, button, pressed):
+    m_controller = Controller()
+    if button == mouse.Button.left:
+        if(pressed):
+            print(f"clicked on ({x},{y})")
+            m_controller.position = (x,y)
+            print(f"controller position then claims to be at {m_controller.position}")
+            # return False # Returning False if you need to stop the program when Left clicked.
+    else:
+        print('{} at {}'.format('Pressed Right Click' if pressed else 'Released Right Click', (x, y)))
+
+
+
 
 
 def main():
@@ -357,6 +415,8 @@ def main():
         print(f"After squaring, your corners are at {corners}")
         save_corners(corners)
         return False
+    elif(response == "oldcal"):
+        old_calibration()
     else:
         # print("No existing mappings exist (functionality not yet added) Bye")
         print("What's the name of the mapping you're looking for?")
@@ -385,3 +445,15 @@ if __name__ == "__main__":
     # input 2 test line 222221444443311133444144433334343443333334
     # input 3 test line 3333324144222244414411122442
     # input 4 test line 44444433122222322222211122211325113
+
+# for the 3-screen setup::: 
+    # on top screen [screen 2] - Everything works normally 
+    # on bottom screen [screen 1] - (118, 103) -> (148, 129) -> (185, 161) -> (231, 201) -> (289, 251) -> (361, 314) -> (451, 393) -> (564, 491) -> (705, 614) -> (881, 768) -> (1101, 863)
+    # on right screen [screen 3] - Everything works normally
+# Notes: screens 2 and 3 have negative values in their coordinates, screen 1 does not. Could this be the issue? 
+
+# for the 3-screen setup::: 
+    # on top screen [screen 1] - 
+    # on bottom screen [screen 2] - 
+    # on right screen [screen 3] - 
+# Notes: 
